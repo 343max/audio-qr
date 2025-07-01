@@ -92,8 +92,8 @@ EOF
 # Generate QR codes for each audio file found
 for m4a_file in audio/*.m4a; do
     if [ -f "$m4a_file" ]; then
-        # Get basename without extension (e.g., "1" from "1.m4a")
-        basename=$(basename "$m4a_file" .m4a)
+        # Get basename without extension (e.g., "1" from "1.m4a") and convert to lowercase
+        basename=$(basename "$m4a_file" .m4a | tr '[:upper:]' '[:lower:]')
         URL="$BASE_URL/$basename/"
         
         echo "Generating SVG QR code for page $basename: $URL"
