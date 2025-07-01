@@ -28,10 +28,15 @@ jobs:
           hugo-version: 'latest'
           extended: true
 
-      - name: Install FFmpeg
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install FFmpeg via npm (faster)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
+          npm install -g @ffmpeg-installer/ffmpeg
+          echo "$(npm root -g)/@ffmpeg-installer/ffmpeg/ffmpeg" >> $GITHUB_PATH
 
       - name: Generate pages and content
         run: |
