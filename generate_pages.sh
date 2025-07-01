@@ -3,6 +3,9 @@
 # Create pages directory
 mkdir -p pages
 
+# Get ffmpeg binary path from the npm package
+FFMPEG_BIN=$(node -e "console.log(require('@ffmpeg-installer/ffmpeg').path)")
+
 # Process each audio file in the audio directory
 for m4a_file in audio/*.m4a; do
     # Get basename without extension (e.g., "1" from "1.m4a")
@@ -14,7 +17,7 @@ for m4a_file in audio/*.m4a; do
     
     # Convert M4A to MP3 in the page directory
     echo "Converting $m4a_file to $page_dir/audio.mp3"
-    npx ffmpeg -i "$m4a_file" -codec:a libmp3lame -b:a 128k "$page_dir/audio.mp3" -y
+    "$FFMPEG_BIN" -i "$m4a_file" -codec:a libmp3lame -b:a 128k "$page_dir/audio.mp3" -y
     
     # Copy transcript as markdown file
     if [ -f "audio/$basename.txt" ]; then
