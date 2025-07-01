@@ -89,25 +89,29 @@ cat > qr-code/qr-codes.html << 'EOF'
     <div class="grid">
 EOF
 
-# Generate QR codes and add to HTML
-for i in {1..3}; do
-    URL="$BASE_URL/$i/"
-    
-    echo "Generating SVG QR code for page $i: $URL"
-    
-    # Generate QR code as SVG
-    SVG_CONTENT=$(qrencode -t SVG -s 10 -m 2 "$URL")
-    
-    # Add QR code item to HTML
-    cat >> qr-code/qr-codes.html << EOF
+# Generate QR codes for each audio file found
+for m4a_file in audio/*.m4a; do
+    if [ -f "$m4a_file" ]; then
+        # Get basename without extension (e.g., "1" from "1.m4a")
+        basename=$(basename "$m4a_file" .m4a)
+        URL="$BASE_URL/$basename/"
+        
+        echo "Generating SVG QR code for page $basename: $URL"
+        
+        # Generate QR code as SVG
+        SVG_CONTENT=$(qrencode -t SVG -s 10 -m 2 "$URL")
+        
+        # Add QR code item to HTML
+        cat >> qr-code/qr-codes.html << EOF
         <div class="qr-item">
-            <div class="qr-title">Audio $i</div>
+            <div class="qr-title">Audio $basename</div>
             <div class="qr-code">
                 $SVG_CONTENT
             </div>
             <div class="qr-url">$URL</div>
         </div>
 EOF
+    fi
 done
 
 # Close HTML file
