@@ -27,10 +27,35 @@
             margin-bottom: 20px;
             text-align: center;
         }
+        .play-button {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #3498db;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+        .play-button:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+        .play-button svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
         audio {
             width: 100%;
             height: 54px;
             margin-bottom: 20px;
+            display: none;
         }
         .transcript-container {
             background: white;
@@ -68,11 +93,52 @@
 <body>
     <div class="audio-container">
         <h1 class="audio-title">Audio {{ .Title }}</h1>
-        <audio controls preload="auto" autoplay>
+        <button class="play-button" id="playButton">
+            <svg id="playIcon" viewBox="0 0 24 24">
+                <path d="M8,5.14V19.14L19,12.14L8,5.14Z"/>
+            </svg>
+            <svg id="pauseIcon" viewBox="0 0 24 24" style="display: none;">
+                <path d="M14,19.14H18V5.14H14V19.14M6,19.14H10V5.14H6V19.14Z"/>
+            </svg>
+        </button>
+        <audio id="audioPlayer" preload="auto" autoplay>
             <source src="audio.mp3" type="audio/mpeg">
             Ihr Browser unterstützt das Audio-Element nicht.
         </audio>
     </div>
+    
+    <script>
+        const audio = document.getElementById('audioPlayer');
+        const playButton = document.getElementById('playButton');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
+        }
+        
+        function updateButton() {
+            if (audio.paused) {
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+            } else {
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+            }
+        }
+        
+        playButton.addEventListener('click', togglePlay);
+        audio.addEventListener('play', updateButton);
+        audio.addEventListener('pause', updateButton);
+        audio.addEventListener('ended', updateButton);
+        
+        // Initial state
+        updateButton();
+    </script>
     
     <div class="transcript-container">
         <h2 class="transcript-title">Transkript</h2>
