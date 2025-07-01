@@ -1,3 +1,4 @@
 .DS_Store
-hugo
-hugo.tar.gz
+/hugo
+/hugo.tar.gz
+/pages
