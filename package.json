@@ -1,0 +1,11 @@
+{
+  "name": "audio-qr",
+  "version": "1.0.0",
+  "description": "Interactive audio poster website generator with QR codes",
+  "scripts": {
+    "build": "./generate_pages.sh && ./generate_hugo_content.sh"
+  },
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0"
+  }
+}
