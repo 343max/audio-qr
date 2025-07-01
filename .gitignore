@@ -2,3 +2,6 @@
 /hugo
 /hugo.tar.gz
 /pages
+/content
+/public
+/.hugo_build.lock
